@@ -1,6 +1,7 @@
 'use strict';
 
 const google = require('..');
+const fs = require('fs')
 
 describe('GoogleThis Tests', () => { 
   it('Should search a query', async () => {
@@ -14,8 +15,16 @@ describe('GoogleThis Tests', () => {
   });
   
   it('Should do reverse image search', async () => {
-    const search = await google.search('https://i.pinimg.com/236x/92/16/d9/9216d9a222ef65eb6eabfff1970180d1.jpg', { ris: true });
+    const search = await google.search('https://images.pexels.com/photos/736230/pexels-photo-736230.jpeg?cs=srgb&dl=pexels-jonas-kakaroto-736230.jpg&fm=jpg', { ris: true });
     expect(search.results).not.toHaveLength(0);
+  });
+  
+  it('Should do reverse image search with fingerprint', async () => {
+    const search = await google.search(fs.createReadStream('test/test.jpg'), { ris: true });
+    expect(search.results).not.toHaveLength(0);
+
+    const search2 = await google.search(search.finger_print, { ris: true, by_finger_print: true, page: 1 });
+    expect(search2.results).not.toHaveLength(0);
   });
   
   it('Should retrieve top news', async () => {

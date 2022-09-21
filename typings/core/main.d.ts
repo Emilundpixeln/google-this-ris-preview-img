@@ -29,6 +29,7 @@ export function getTopNews(language?: string, region?: string): Promise<{
  * @param {object} [options] search options
  * @param {boolean} [options.ris] - use reverse image search
  * @param {boolean} [options.safe] - safe search
+ * @param {boolean} [options.by_finger_print] - use finger print from previous search (ris only)
  * @param {number} [options.page] - pagination
  * @param {object} [options.additional_params] - parameters that will be passed to Google
  */
@@ -37,6 +38,7 @@ export function search(query: string | object, options?: {
     safe?: boolean;
     page?: number;
     additional_params?: object;
+    by_finger_print?: boolean
 }): Promise<{
     results: {
         title: string;
@@ -72,6 +74,7 @@ export function search(query: string | object, options?: {
         title: string;
         thumbnail: string;
     }[];
+    finger_print: string;
 }>;
 /**
  * Google image search.
